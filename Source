@@ -1,0 +1,277 @@
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextButton = Instance.new("TextButton")
+local TextLabel = Instance.new("TextLabel")
+
+--Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderColor3 = Color3.fromRGB(255, 255, 255)
+Frame.BorderSizePixel = 2
+Frame.Position = UDim2.new(0.341826946, 0, 0.367763907, 0)
+Frame.AnchorPoint = Vector2.new(0.5, 0.5)
+Frame.Position = UDim2.fromScale(0.5, 0.5)
+Frame.Size = UDim2.new(0.078, 0, 0.15, 0)
+
+local FrameConstraint = Instance.new("UISizeConstraint")
+FrameConstraint.MinSize = Vector2.new(50, 80)
+FrameConstraint.Parent = Frame
+
+TextButton.Parent = Frame
+TextButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.BorderColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.BorderSizePixel = 2
+TextButton.Position = UDim2.new(0.08355, 0, 0.35, 0)
+TextButton.Size = UDim2.new(0.838, 0, 0.25, 0)
+TextButton.Font = Enum.Font.SourceSans
+TextButton.Text = "OFF"
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextScaled = true
+TextButton.TextWrapped = true
+
+local TextButtonConstraint = Instance.new("UITextSizeConstraint")
+TextButtonConstraint.MaxTextSize = 41
+TextButtonConstraint.MinTextSize = 20
+TextButtonConstraint.Parent = TextButton
+
+local UnloadButton = Instance.new("TextButton")
+UnloadButton.Name = "UnloadButton"
+UnloadButton.Parent = Frame
+UnloadButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+UnloadButton.BorderColor3 = Color3.fromRGB(255, 255, 255)
+UnloadButton.BorderSizePixel = 2
+UnloadButton.Position = UDim2.new(0.08355, 0, 0.68, 0)
+UnloadButton.Size = UDim2.new(0.838, 0, 0.25, 0)
+UnloadButton.Font = Enum.Font.SourceSans
+UnloadButton.Text = "Unload"
+UnloadButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+UnloadButton.TextScaled = true
+UnloadButton.TextWrapped = true
+
+local UnloadConstraint = Instance.new("UITextSizeConstraint")
+UnloadConstraint.MaxTextSize = 35
+UnloadConstraint.MinTextSize = 20
+UnloadConstraint.Parent = UnloadButton
+
+TextLabel.Parent = Frame
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BackgroundTransparency = 1.000
+TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderSizePixel = 0
+TextLabel.Position = UDim2.new(0.06497, 0, 0.07277, 0)
+TextLabel.Size = UDim2.new(0.865, 0, 0.192, 0)
+TextLabel.Font = Enum.Font.SourceSans
+TextLabel.Text = "Air Walk"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextScaled = true
+TextLabel.TextWrapped = true
+
+local TextLabelConstraint = Instance.new("UITextSizeConstraint")
+TextLabelConstraint.MaxTextSize = 34
+TextLabelConstraint.MinTextSize = 20
+TextLabelConstraint.Parent = TextLabel
+
+local UpButton = Instance.new("TextButton")
+UpButton.Name = "UpButton"
+UpButton.Parent = Frame
+UpButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+UpButton.BorderColor3 = Color3.fromRGB(255, 255, 255)
+UpButton.BorderSizePixel = 2
+UpButton.Position = UDim2.new(1.06, 0, 0.05, 0)
+UpButton.Size = UDim2.new(0.3, 0, 0.3, 0)
+UpButton.Font = Enum.Font.SourceSans
+UpButton.Text = "↑"
+UpButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+UpButton.TextScaled = true
+UpButton.TextWrapped = true
+
+local UpConstraint = Instance.new("UITextSizeConstraint")
+UpConstraint.MaxTextSize = 35
+UpConstraint.MinTextSize = 20
+UpConstraint.Parent = UpButton
+
+local DownButton = Instance.new("TextButton")
+DownButton.Name = "DownButton"
+DownButton.Parent = Frame
+DownButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+DownButton.BorderColor3 = Color3.fromRGB(255, 255, 255)
+DownButton.BorderSizePixel = 2
+DownButton.Position = UDim2.new(1.06, 0, 0.65, 0)
+DownButton.Size = UDim2.new(0.3, 0, 0.3, 0)
+DownButton.Font = Enum.Font.SourceSans
+DownButton.Text = "↓"
+DownButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+DownButton.TextScaled = true
+DownButton.TextWrapped = true
+
+local DownConstraint = Instance.new("UITextSizeConstraint")
+DownConstraint.MaxTextSize = 35
+DownConstraint.MinTextSize = 20
+DownConstraint.Parent = DownButton
+
+-- Scripts:
+
+local function CTIKC_fake_script() -- TextButton.LocalScript 
+
+	local script = Instance.new('LocalScript', TextButton)
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
+	local RunService = game:GetService("RunService")
+	local Players = game:GetService("Players")
+	local player = Players.LocalPlayer
+	local UserInputService = game:GetService("UserInputService")
+
+	local toggleButton = script.Parent
+	local frame = toggleButton.Parent
+	local upButton = frame:FindFirstChild("UpButton")
+	local downButton = frame:FindFirstChild("DownButton")
+	local unloadButton = toggleButton.Parent:FindFirstChild("UnloadButton")
+	local screenGui = toggleButton.Parent.Parent
+
+	local floating = false
+	local floatPoint = -3.1
+	local floatPart = nil
+	local floatingFunc = nil
+	local floatDied = nil
+	local upHeld = false
+	local downHeld = false
+
+	local function getRoot(character)
+		return character:FindFirstChild("HumanoidRootPart")
+	end
+
+	local function stopFloat()
+		floating = false
+		upHeld = false
+		downHeld = false
+		if floatingFunc then
+			floatingFunc:Disconnect()
+			floatingFunc = nil
+		end
+		if floatDied then
+			floatDied:Disconnect()
+			floatDied = nil
+		end
+		if floatPart then
+			floatPart:Destroy()
+			floatPart = nil
+		end
+	end
+
+	local function startFloat()
+		local character = player.Character
+		if not character then
+			return
+		end
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		local root = getRoot(character)
+		if not humanoid or not root then
+			return
+		end
+		if floating then
+			return
+		end
+		floating = true
+		floatPoint = -3.1
+		floatPart = Instance.new("Part")
+		floatPart.Name = "AirWalkPlatform"
+		floatPart.Parent = character
+		floatPart.Transparency = 1
+		floatPart.Size = Vector3.new(2, 0.2, 1.5)
+		floatPart.Anchored = true
+		floatDied = humanoid.Died:Connect(function()
+			stopFloat()
+			toggleButton.Text = "OFF"
+		end)
+		floatingFunc = RunService.PreAnimation:Connect(function()
+			if not floating then
+				return
+			end
+			if character.Parent
+				and character:FindFirstChild("AirWalkPlatform")
+				and getRoot(character) then
+				floatPart.CFrame =
+					getRoot(character).CFrame * CFrame.new(0, floatPoint, 0)
+			else
+				stopFloat()
+				toggleButton.Text = "OFF"
+			end
+		end)
+	end
+
+	toggleButton.MouseButton1Click:Connect(function()
+		if floating then
+			stopFloat()
+			toggleButton.Text = "OFF"
+		else
+			startFloat()
+			if floating then
+				toggleButton.Text = "ON"
+			end
+		end
+	end)
+
+	if upButton then
+		upButton.MouseButton1Down:Connect(function()
+			if not floating or upHeld then
+				return
+			end
+			upHeld = true
+			floatPoint += 1.5
+		end)
+	end
+
+	if downButton then
+		downButton.MouseButton1Down:Connect(function()
+			if not floating or downHeld then
+				return
+			end
+			downHeld = true
+			floatPoint -= 0.5
+		end)
+	end
+
+	UserInputService.InputEnded:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			if upHeld then
+				upHeld = false
+				floatPoint -= 1.5
+			end
+			if downHeld then
+				downHeld = false
+				floatPoint += 0.5
+			end
+		end
+		if input.UserInputType == Enum.UserInputType.Touch then
+			if upHeld then
+				upHeld = false
+				floatPoint -= 1.5
+			end
+			if downHeld then
+				downHeld = false
+				floatPoint += 0.5
+			end
+		end
+	end)
+
+	if unloadButton then
+		unloadButton.MouseButton1Click:Connect(function()
+			stopFloat()
+			if screenGui and screenGui.Parent then
+				screenGui:Destroy()
+			end
+		end)
+	end
+end
+coroutine.wrap(CTIKC_fake_script)()
+local function FFJFK_fake_script() -- Frame.LocalScript 
+	local script = Instance.new('LocalScript', Frame)
+
+	script.Parent.Active = true
+	script.Parent.Draggable = true
+end
+coroutine.wrap(FFJFK_fake_script)()
