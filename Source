@@ -138,6 +138,7 @@ local function CTIKC_fake_script() -- TextButton.LocalScript
 	local floatDied = nil
 	local upHeld = false
 	local downHeld = false
+	local floatName = nil
 
 	local function randomString()
 		local length = math.random(10,20)
@@ -147,9 +148,6 @@ local function CTIKC_fake_script() -- TextButton.LocalScript
 		end
 		return table.concat(array)
 	end
-
-	local floatName = randomString()
-	_G.SentinelAirWalkPartName = floatName
 
 	local function getRoot(character)
 		return character:FindFirstChild("HumanoidRootPart")
@@ -175,6 +173,8 @@ local function CTIKC_fake_script() -- TextButton.LocalScript
 	end
 
 	local function startFloat()
+		floatName = randomString()
+		_G.SentinelAirWalkPartName = floatName
 		local character = player.Character
 		if not character then
 			return
