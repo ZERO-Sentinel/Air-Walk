@@ -119,7 +119,6 @@ DownConstraint.Parent = DownButton
 local function CTIKC_fake_script() -- TextButton.LocalScript 
 
 	local script = Instance.new('LocalScript', TextButton)
-	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local RunService = game:GetService("RunService")
 	local Players = game:GetService("Players")
 	local player = Players.LocalPlayer
@@ -139,6 +138,18 @@ local function CTIKC_fake_script() -- TextButton.LocalScript
 	local floatDied = nil
 	local upHeld = false
 	local downHeld = false
+
+	local function randomString()
+		local length = math.random(10,20)
+		local array = {}
+		for i = 1, length do
+			array[i] = string.char(math.random(32, 126))
+		end
+		return table.concat(array)
+	end
+
+	local floatName = randomString()
+	_G.SentinelAirWalkPartName = floatName
 
 	local function getRoot(character)
 		return character:FindFirstChild("HumanoidRootPart")
@@ -160,6 +171,7 @@ local function CTIKC_fake_script() -- TextButton.LocalScript
 			floatPart:Destroy()
 			floatPart = nil
 		end
+		_G.SentinelAirWalkPartName = nil
 	end
 
 	local function startFloat()
@@ -178,7 +190,7 @@ local function CTIKC_fake_script() -- TextButton.LocalScript
 		floating = true
 		floatPoint = -3.1
 		floatPart = Instance.new("Part")
-		floatPart.Name = "AirWalkPlatform"
+		floatPart.Name = floatName
 		floatPart.Parent = character
 		floatPart.Transparency = 1
 		floatPart.Size = Vector3.new(2, 0.2, 1.5)
@@ -192,7 +204,7 @@ local function CTIKC_fake_script() -- TextButton.LocalScript
 				return
 			end
 			if character.Parent
-				and character:FindFirstChild("AirWalkPlatform")
+				and character:FindFirstChild(floatName)
 				and getRoot(character) then
 				floatPart.CFrame =
 					getRoot(character).CFrame * CFrame.new(0, floatPoint, 0)
